@@ -1,0 +1,14 @@
+- title: "home"
+  url: ""
+  section: "blog"
+  side: right
+
+- title: "archives"
+  url: "archives/"
+  section: "archives"
+  side: right
+
+- title: "about"
+  url: "about/"
+  section: "about"
+  side: right

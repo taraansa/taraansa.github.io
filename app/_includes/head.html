@@ -1,0 +1,61 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+	<link rel="stylesheet" href="{{ site.url }}{{ site.baseurl }}/assets/css/styles_inchmeal.css"/>
+	<link rel="alternate" type="application/rss+xml" title="Inchmeal RSS" href="/rss-feed.xml" />
+
+	<script src="{{ site.url }}{{ site.baseurl }}/assets/js/inchmeal_head.js"></script>
+
+	{% if page.loadMath %}
+	{% if site.dev %}
+	<script type="text/javascript"
+			src="/bower_components/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	</script>
+	<script>
+		var disqus_developer = 1; // Comment out when the site is live
+	</script>
+	{% else %}
+	<script type="text/javascript"
+			src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	</script>
+	{% endif %}
+	<script>
+		MathJax.Hub.Config({
+			"HTML-CSS": { scale: 82 },
+			"displayAlign": "left"
+		});
+	</script>
+	{% endif %}
+
+	{% if site.google_site_verification %}<meta name="google-site-verification" content="{{ site.google_site_verification}}" />{% endif %}
+	{% if site.bing_webmastertools_id %}<meta name="msvalidate.01" content="{{ site.bing_webmastertools_id }}" />{% endif %}
+	{% if page.description %}<meta name="description" content="{{ page.description | strip_html | escape }}"/>{% else %}<meta name="description" content="Inchmeal | {{ page.title | strip_html | escape }}"/>{% endif %}
+
+	{% if site.google_author %}<link rel="author" href="{{ site.google_author }}"/>{% endif %}
+
+	{% include favicon %}
+
+	<!-- Facebook Optimization -->
+	<meta property="og:locale" content="{% if site.og_locale == nil %}en_EN{% else %}{{ site.og_locale }}{% endif %}" />
+	{% if site.og_type %}<meta property="og:type" content="website" />{% endif %}
+	<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}" />
+	{% if page.meta_description %}<meta property="og:description" content="{{ page.meta_description | strip_html | escape }}"/>{% elsif page.description %}<meta property="og:description" content="{{ page.description | strip_html | escape }}"/>{% elsif site.description %}<meta property="og:description" content="{{ site.description | strip_html | escape }}"/>{% endif %}
+	<meta property="og:url" content="{{ site.url }}{{ site.baseurl }}/{{ page.url }}" />
+	{% if site.title %}<meta property="og:site_name" content="{{ site.title }}" />{% endif %}
+	{% if page.image.thumb %}<meta property="og:image" content="{{ site.urlimg }}/{{ page.image.thumb }}" />{% endif %}
+
+	{% if site.alexa_verify_id %}<meta name="alexaVerifyID" content="{{ site.alexa_verify_id }}" />{% endif %}
+
+	<!-- Search Engine Optimization -->
+	{% if page.noindex == true %}<meta name="robots" content="noindex">{% endif %}
+
+	<link type="text/plain" rel="author" href="{{ site.url }}{{ site.baseurl }}//humans.txt" />
+
+	{% unless page.style == NULL %}
+	<style type="text/css">{{ page.style }}</style>
+	{% endunless %}
+</head>

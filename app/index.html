@@ -1,0 +1,37 @@
+---
+layout: default
+title: "reveries - recent posts"
+section: blog
+sitemap:
+    changefreq: weekly
+    priority: 0.7
+---
+<div class="row t40">
+    <div class="medium-8 medium-centered medium-offset-2 columns">
+        {% for post in site.posts limit: site.num_posts_home %}
+        <p>
+        <h2><a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a></h2>
+        <p class="tm10 bm0">
+            <time class="post-date pr20" datetime="{{ post.date | date: "%B %d, %Y" }}" itemprop="datePublished"> {{ post.date | date: "%B %d, %Y" }}</time>
+            <span>{% for tag in post.tags %}<a title="View all posts in {{ tag }}" href="/archives/#search/{{ tag }}"><span class="radius info label">{{ tag }}</span></a> {% endfor %}</span>
+        </p>
+        {% if post.coverimage %}
+        <figure>
+            <img src="{{ site.urlimg }}/{{ post.coverimage.path }}" class="t10 alignimgcenter" itemprop="image">
+
+            {% if post.coverimage.caption %}
+            <figcaption class="text-center">
+                {{ post.image.caption }}
+            </figcaption>
+            {% endif %}
+        </figure>
+        {% endif %}
+        <p>
+            {{ post.excerpt | remove: '<p>' | remove: '</p>' }}
+        <a href="{{ site.url }}{{ post.url }}" title="Read {{ post.title escape_once }}">{{ site.data.language.read_more }}</a>
+        </p>
+        <hr/>
+        </p>
+        {% endfor %}
+    </div><!-- /.medium-8.columns -->
+</div><!-- /.row -->

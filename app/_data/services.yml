@@ -1,0 +1,11 @@
+- name: "RSS"
+  url: "/rss-feed.xml"
+  class: "rss-link"
+  title: "Subscribe to RSS"
+  newtab: true
+
+- name: "Contact"
+  url: "mailto:mailovais85@gmail.com"
+  class: "contact-link"
+  title: "Contact"
+  newtab: false

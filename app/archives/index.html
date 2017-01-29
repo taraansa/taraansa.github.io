@@ -1,0 +1,128 @@
+---
+layout: default
+title: "reveries - archives"
+description: "lookup for all posts in inchmeal"
+section: archives
+sitemap:
+    changefreq: weekly
+---
+<div class="row t40">
+	<div class="medium-4 columns medium-push-8">
+		<div class="row t5">
+			<div class="medium-12 columns">
+				<h3>Filters</h3>
+				<div class="sandbox">
+						<select class="tags-filter-box" multiple="true" placeholder="Tag1 & Tag2 & ...">
+						</select>
+				</div>
+				<div class="show-for-small-down">
+					<hr class="t20"/>
+				</div>
+				<!-- tags lable -->
+				<div class="show-for-medium-up">
+					<h3 class="t30">Tags</h3>
+					<hr class="tm5 b10"/>
+
+					<!-- sort tags -IMPORTANT- do not split below statement as it starts capturing new line which causes problems- -->
+					{% capture tagNamesAndCount %}{% for tag in site.tags %}{{ tag[0] }}##{{ tag[1].size}}$${% endfor %}{% endcapture %}
+
+					{% assign sortedTags = tagNamesAndCount | split:'$$' | sort %}
+					<!-- end sort tags -->
+					<span>
+						{% for tag in sortedTags %}
+						{% assign tagData = tag | split: '##' %}
+						{% if tagData.size >= 2 %}
+						<a tags="{{ tagData[0] }}" ><span class="radius info label">{{ tagData[0] }}({{ tagData[1] }})</span></a>
+						{% endif %}
+						{% endfor %}
+					</span>
+					<hr/>
+				</div>
+				<!-- end tags label-->
+				<!-- month-year labels -->
+
+				<div class="show-for-medium-up">
+					<h3 class="t30">Year</h3>
+					<hr class="tm5 b10"/>
+					<span>
+						{% assign count = 0 %}
+						{% for post in site.posts %}
+
+						  {% assign currentYear = post.date | date: "%Y" %}
+						  {% assign nextYear = post.next.date | date: "%Y" %}
+						  {% if currentYear != nextYear %}
+						  <h5 class="t10" style="color:#777">{{ currentYear }}</h5>
+						  {% endif %}
+
+						  {% assign currentMonth = post.date | date: "%B" %}
+						  {% assign currentMonthYear = post.date | date: "%Y %B" %}
+						  {% assign prevMonthYear = post.previous.date | date: "%Y %B" %}
+						  {% assign count = count | plus: 1 %}
+
+						  {% if currentMonthYear != prevMonthYear %}
+							<a tags="{{ currentMonth }},{{ currentYear }}" ><span class="radius info label">{{ currentMonth }}({{ count }})</span></a>
+							{% assign count = 0 %}
+						  {% endif %}
+						{% endfor %}
+					</span>
+					<hr/>
+				</div>
+				<!-- end month-year labels -->
+				<!-- end of label -->
+			</div>
+		</div>
+	</div><!-- /.medium-4.columns -->
+	<div class="medium-8 columns medium-pull-4">
+		<div class="row">
+			<div id="search-results" class="medium-11 medium-offset-1 columns">
+			</div><!-- /.small-11.columns -->
+		</div><!-- /.row -->
+	</div><!-- /.medium-8.columns -->
+</div><!-- /.row -->
+
+<script type="text/template" id="search-result">
+	<h3><a href="{{ site.url }}<%= url %>"><%= title %></a></h3>
+	<p class="tm10">
+		<time class="post-date pr10" datetime="<%= date[1] %> <%= date[2] %>, <%= date[0] %>" itemprop="datePublished"><%= date[1] %> <%= date[2] %>, <%= date[0] %></time>
+		<span><% _.each( tags, function( tag ){ %><a class="r6" tags="<%= tag %>" ><span class="radius info label"> <%= tag %></span></a><% }); %></span>
+	</p>
+	<hr/>
+</script>
+
+<script type="text/template" id="total-result">
+	<p><b><%= total %></b> records matched.</p>
+</script>
+
+<!-- do not change the id. it follows a convention, see view rendering in backbone for further details -->
+<script type="text/template" id="result-message-invalid-url">
+	<p>It seems like you have entered invalid url.</p>
+</script>
+<script type="text/template" id="result-message-zero-results">
+	<p>Please note that it matches only those posts that contain <b>all</b> the selected tags.</p>
+</script>
+<script type="text/template" id="result-message-invalid-tags">
+	<p>It seems like you have entered invalid tags in url. Please use tags defined in filter drop-down only. Note that tags are case-sensitive. </p>
+</script>
+
+<script>
+var searchBoxOptions = [
+	{% for tag in site.tags %}
+	{ "group": "Tags", "value": "{{ tag[0] }}" }{% unless forloop.last %}, {% endunless %}
+	{% endfor %}{% if site.posts.size > 0 %}, {% endif %}
+	{% for post in site.posts %}
+	{% assign currentYear = post.date | date: "%Y" %}{% assign prevYear = post.previous.date | date: "%Y" %}{% if currentYear != prevYear %}{"group": "Year", "value": "{{ currentYear }}"},{% endif %}
+	{% endfor %}
+	{"group": "Month", "value":  "January" },
+	{"group": "Month", "value":  "February" },
+	{"group": "Month", "value":  "March" },
+	{"group": "Month", "value":  "April" },
+	{"group": "Month", "value":  "May" },
+	{"group": "Month", "value":  "June" },
+	{"group": "Month", "value":  "July" },
+	{"group": "Month", "value":  "August" },
+	{"group": "Month", "value":  "September" },
+	{"group": "Month", "value":  "October" },
+	{"group": "Month", "value":  "November" },
+	{"group": "Month", "value":  "December" }
+];
+</script>
