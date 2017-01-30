@@ -51,8 +51,8 @@ $text-color:    #666;
 $body-font-color: 	$text-color;
 $body-bg: 			#fff;
 $hr-border-color: $grey-3;
-$anchor-font-color: #C55B02;
-$header-font-color: green;
+$anchor-font-color: #3ab734;
+$header-font-color: black;
 
 /* Not sure where to put this. */
 strong,
@@ -100,14 +100,14 @@ $secondary-color: $ci-6;
 $alert-color: $ci-5;
 $success-color: $ci-6;
 $warning-color: $ci-4;
-$info-color: #CEE5D5;
-$label-font-color: #777;
+$info-color: #E2E5E8;
+$label-font-color: #5f6560;
 
 
 /* Topbar-Navigation
 ------------------------------------------------------------------- */
 
-$topbar-bg-color: #A65C5C;
+$topbar-bg-color: #21861c;
 
 $topbar-dropdown-toggle-color: $ci-1;
 
@@ -148,4 +148,11 @@ $footer-link-color: $ci-6;
 $subfooter-bg: #9B9999;
 $subfooter-color: #ffffff;
 $subfooter-link-color: #ffffff;
+
+/* Header
+-------------------------------------------------------------------- */
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  color: black;
+}
 

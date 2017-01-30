@@ -3,7 +3,7 @@
   section: "blog"
   side: right
 
-- title: "archives"
+- title: "archive"
   url: "archives/"
   section: "archives"
   side: right
