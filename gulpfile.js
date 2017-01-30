@@ -403,7 +403,7 @@ gulp.task('copynojekyll:production', function(){
 gulp.task('deploy', ['build:production'], function(){
 
    var options = {
-     "remoteUrl": "https://github.com/0vais/0vais.github.io",
+     "remoteUrl": "https://github.com/taraansa/taraansa.github.io",
      "branch": "master"
    }
 

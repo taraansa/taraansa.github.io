@@ -1,9 +1,9 @@
 - name: Twitter
-  url: http://twitter.com/ovais_
+  url: http://twitter.com/tarannum_in
   class: icon-twitter
   title: "Follow on twitter"
 
 - name: GitHub
-  url: http://github.com/0vais
+  url: http://github.com/taraansa
   class: icon-github
   title: "Follow on github"
