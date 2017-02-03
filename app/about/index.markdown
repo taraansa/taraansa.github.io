@@ -6,7 +6,7 @@ sitemap:
     priority: 0.8
 ---
 
-I am a market research professional and find enjoyment in making sense of data and finding insights in plethora of information.
+I am a Research Analyst and find enjoyment in making sense of data and finding insights in plethora of information.
 
 When I am not working I enjoy watching movies of varied genre and languages. I also love reading and my interest varies from Harry Potter to Martian, to Selfish Gene.
 

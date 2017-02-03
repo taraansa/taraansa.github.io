@@ -1,7 +1,7 @@
 ---
 layout: blog
-title:  "Workout Wednesday Week 6 - Distribution bands with Medians"
-tags: Tableau WorkoutWednesday Distribution-bands
+title:  "Workout Wednesday Week 5 - Distribution bands with Medians"
+tags: tableau WorkoutWednesday distribution-bands
 date: 2017-02-03
 coverimage:
  path: wowed/wk6/final.png
@@ -131,14 +131,6 @@ With that, I finally completed the dashboard. Hopefully I'll use the custom font
 
 
 Blogging about the exercise was quite fun. I hope to do it every week and make Workout Wednesday a valuable learning exercise.
-
-
-
-
-
-
-
-
 
 
 [andy]: http://www.vizwiz.com/2017/02/ww-distributions.html
