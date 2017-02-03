@@ -5,11 +5,5 @@
       "title": "Hello World",
       "date": ["2017", "January", "29"],
       "tags": ["personal-views"]
-    },{
-      "id": 2,
-      "url": "/2016/08/20/a-quintessential-soul.html",
-      "title": "A quintessential soul",
-      "date": ["2016", "August", "20"],
-      "tags": ["personal-views"]
     }
 ]
