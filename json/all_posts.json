@@ -2,14 +2,20 @@
     {
       "id": 1,
       "url": "/2017/02/03/workout-wednesday-week6.html",
-      "title": "Workout Wednesday Week 6 - Distribution bands with Medians",
+      "title": "Workout Wednesday Week 5 - Distribution bands with Medians",
       "date": ["2017", "February", "03"],
-      "tags": ["Tableau", "WorkoutWednesday", "Distribution-bands"]
+      "tags": ["tableau", "WorkoutWednesday", "distribution-bands"]
     },{
       "id": 2,
+      "url": "/2017/02/02/makeover-monday-workout-wednesday.html",
+      "title": "Tableau practice - Makeover Monday and Workout Wednesday",
+      "date": ["2017", "February", "02"],
+      "tags": ["tableau"]
+    },{
+      "id": 3,
       "url": "/2017/01/29/hello-world.html",
       "title": "Hello World",
       "date": ["2017", "January", "29"],
-      "tags": ["personal-views"]
+      "tags": ["blog"]
     }
 ]
