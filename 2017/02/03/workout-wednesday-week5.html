@@ -110,7 +110,7 @@
 	
 	<meta property="og:title" content="Workout Wednesday Week 5 - Distribution bands with Medians" />
 	<meta property="og:description" content="Data Visualisation"/>
-	<meta property="og:url" content="http://www.visualvantage.io//2017/02/03/workout-wednesday-week6.html" />
+	<meta property="og:url" content="http://www.visualvantage.io//2017/02/03/workout-wednesday-week5.html" />
 	<meta property="og:site_name" content="visual vantage" />
 	
 
@@ -237,7 +237,7 @@ But this time I decided that I’ll not take a peek into anybody’s blog or tab
 
 <p>This week’s challenge was to recreate the below viz created by <a href="http://www.vizwiz.com/2017/02/ww-distributions.html">Andy Kriebel</a>  using <a href="https://drive.google.com/file/d/0BwwOAU_ldxzwa2tQZXg2YkVzZlU/view">NFL data</a></p>
 
-<p><img src="http://www.visualvantage.io/assets/img/wowed/wk6/sample.png" class="alignimgcenter" itemprop="image" /></p>
+<p><img src="http://www.visualvantage.io/assets/img/wowed/wk5/sample.png" class="alignimgcenter" itemprop="image" /></p>
 
 <p>And these were some specific requirements :</p>
 
@@ -272,31 +272,31 @@ But this time I decided that I’ll not take a peek into anybody’s blog or tab
 
 <p>Easy things first, I created a parameter control with string data type for choosing the stats.</p>
 
-<p><img src="http://www.visualvantage.io/assets/img/wowed/wk6/parametr.png" class="alignimgcenter" itemprop="image" /></p>
+<p><img src="http://www.visualvantage.io/assets/img/wowed/wk5/parametr.png" class="alignimgcenter" itemprop="image" /></p>
 
 <p>And then proceeded with accompanying calculation to reflect the values of the chosen stat in the viz.</p>
 
-<p><img src="http://www.visualvantage.io/assets/img/wowed/wk6/select.png" class="alignimgcenter" itemprop="image" /></p>
+<p><img src="http://www.visualvantage.io/assets/img/wowed/wk5/select.png" class="alignimgcenter" itemprop="image" /></p>
 
 <p>After playing around a little with box plots and not able to do much with whiskers i started to realize that box plot is not going to do it. Those bars must be some type of bar chart or gantt chart sized according to the interquartile range.</p>
 
 <p>So, to get IQR first we need 25th percentile and 75th percentile of the required measures for every year.  Also the medians. I did those with LOD calculations.</p>
 
-<p><img src="http://www.visualvantage.io/assets/img/wowed/wk6/pct25.png" class="alignimgcenter" itemprop="image" /></p>
+<p><img src="http://www.visualvantage.io/assets/img/wowed/wk5/pct25.png" class="alignimgcenter" itemprop="image" /></p>
 
-<p><img src="http://www.visualvantage.io/assets/img/wowed/wk6/pct75.png" class="alignimgcenter" itemprop="image" /></p>
+<p><img src="http://www.visualvantage.io/assets/img/wowed/wk5/pct75.png" class="alignimgcenter" itemprop="image" /></p>
 
-<p><img src="http://www.visualvantage.io/assets/img/wowed/wk6/median.png" class="alignimgcenter" itemprop="image" /></p>
+<p><img src="http://www.visualvantage.io/assets/img/wowed/wk5/median.png" class="alignimgcenter" itemprop="image" /></p>
 
 <p>After getting all these in place, I got something like this. with median and 25th and 75th percentile displayed.</p>
 
-<p><img src="http://www.visualvantage.io/assets/img/wowed/wk6/rgh1.png" class="alignimgcenter" itemprop="image" /></p>
+<p><img src="http://www.visualvantage.io/assets/img/wowed/wk5/rgh1.png" class="alignimgcenter" itemprop="image" /></p>
 
 <p>Now it was only a matter of joining the percentile marks. But I just could not get how. I got stuck in this place for a LONG time. looking around for articles on quartile range, box plots, custom bar chart and what not. Now in the hindsight it seems so silly.</p>
 
 <p>I eventually stumbled upon the idea that we can use the difference of 75th percentile and 25th percentile to set size for the gantt chart and no need to display the 75th percentile in the view. So I did the calculation, moved the median marks to front and instantly achieved this.</p>
 
-<p><img src="http://www.visualvantage.io/assets/img/wowed/wk6/rgh2.png" class="alignimgcenter" itemprop="image" /></p>
+<p><img src="http://www.visualvantage.io/assets/img/wowed/wk5/rgh2.png" class="alignimgcenter" itemprop="image" /></p>
 
 <p>WHAT?? That looks so neat. Was it this simple? Have I done 90% already??  <br />
 I was so wrong :)</p>
@@ -306,14 +306,14 @@ I started with the thought that it is going to be tricky. But surprisingly it di
 
 <p>Since median was already available and total QB’s was easily done by <code class="highlighter-rouge">COUNTD(Players)</code>, only challenge was to count the QB’s in the IQR. I calculated those by the following calculation.</p>
 
-<p><img src="http://www.visualvantage.io/assets/img/wowed/wk6/iqr.png" class="alignimgcenter" itemprop="image" /></p>
+<p><img src="http://www.visualvantage.io/assets/img/wowed/wk5/iqr.png" class="alignimgcenter" itemprop="image" /></p>
 
 <p>This made me very happy :)</p>
 
 <p>Leaving formatting for the end, I moved on to the legend.
 I noted that I could use the percentile and median calculation for creating similar looking legend. But do I really need to do the calculations again? Since I don’t want the legend to be dynamic, just a similar looking distribution bar, I opted to do it without any calculations. And I ended up with pretty neat legend all decked up with annotations.</p>
 
-<p><img src="http://www.visualvantage.io/assets/img/wowed/wk6/legend.png" class="alignimgcenter" itemprop="image" /></p>
+<p><img src="http://www.visualvantage.io/assets/img/wowed/wk5/legend.png" class="alignimgcenter" itemprop="image" /></p>
 
 <p>I had a well functioning dashboard now. Only formatting remaining. ONLY.</p>
 
@@ -346,7 +346,7 @@ I noted that I could use the percentile and median calculation for creating simi
 
 <div class="show-for-small-down">
 <a href="https://public.tableau.com/views/Distributionbandswithmedians/DistributionBandswithMedians?:retry=yes&amp;:embed=y&amp;:display_count=yes">
-<img src="http://www.visualvantage.io/assets/img/wowed/wk6/final.png" class="alignimgcenter" itemprop="image" />
+<img src="http://www.visualvantage.io/assets/img/wowed/wk5/final.png" class="alignimgcenter" itemprop="image" />
 </a>
 </div>
 <!-- tags lable -->
@@ -379,6 +379,8 @@ I noted that I could use the percentile and median calculation for creating simi
                 <a class="left icon-chevron-left r15" title="Tableau practice - Makeover Monday and Workout Wednesday" href="/2017/02/02/makeover-monday-workout-wednesday.html">previous </a>
                 
                 
+                <a class="right " title="Workout Wednesday Week 6 - Butterfly bar chart in Trellis format" href="/2017/02/12/workout-wednesday-week6.html">next <span class="icon-chevron-right"></span></a>
+                
             </p>
 
             <br/>
@@ -397,7 +399,7 @@ I noted that I could use the percentile and median calculation for creating simi
 		
 		var disqus_config = function () {
 		 //this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
-		 this.page.identifier = "/2017/02/03/workout-wednesday-week6.html"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+		 this.page.identifier = "/2017/02/03/workout-wednesday-week5.html"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 		};
 		
 

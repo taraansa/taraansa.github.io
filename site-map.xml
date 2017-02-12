@@ -3,7 +3,22 @@
     
     
     <url>
-        <loc>http://www.visualvantage.io/2017/02/03/workout-wednesday-week6.html</loc>
+        <loc>http://www.visualvantage.io/2017/02/12/workout-wednesday-week6.html</loc>
+        
+        <lastmod>2017-02-12T00:00:00+05:30</lastmod>
+        
+        
+        <changefreq>monthly</changefreq>
+        
+        
+        <priority>0.7</priority>
+        
+    </url>
+    
+    
+    
+    <url>
+        <loc>http://www.visualvantage.io/2017/02/03/workout-wednesday-week5.html</loc>
         
         <lastmod>2017-02-03T00:00:00+05:30</lastmod>
         
@@ -59,7 +74,7 @@
         <loc>http://www.visualvantage.io/archives/</loc>
         
         
-        <lastmod>2017-02-04T04:31:52+05:30</lastmod>
+        <lastmod>2017-02-12T23:40:54+05:30</lastmod>
         
         
         <changefreq>weekly</changefreq>
@@ -76,7 +91,7 @@
         <loc>http://www.visualvantage.io</loc>
         
         
-        <lastmod>2017-02-04T04:31:52+05:30</lastmod>
+        <lastmod>2017-02-12T23:40:54+05:30</lastmod>
         
         
         <changefreq>weekly</changefreq>
@@ -93,7 +108,7 @@
         <loc>http://www.visualvantage.io/about/</loc>
         
         
-        <lastmod>2017-02-04T04:31:52+05:30</lastmod>
+        <lastmod>2017-02-12T23:40:54+05:30</lastmod>
         
         
         <changefreq>monthly</changefreq>
