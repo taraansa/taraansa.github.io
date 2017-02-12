@@ -1,8 +1,8 @@
 ---
 layout: blog
-title:  "Workout Wednesday Week 5 - Distribution bands with Medians"
-tags: tableau WorkoutWednesday distribution-bands
-date: 2017-02-03
+title:  "Workout Wednesday Week 6 - Butterfly bar chart in Trellis format"
+tags: tableau WorkoutWednesday trellis-chart butterfly-chart
+date: 2017-02-12
 coverimage:
  path: wowed/wk6/final.png
  position: down
@@ -11,127 +11,152 @@ sitemap:
 ---
 
 
-Whenever Andy Kriebel (@VizWizBI) posts a viz for #WorkoutWednesday, the viz looks so sleek and perfect that my first thought always is "oh man, this is going to be tough". And very obviously I get stuck somewhere and end up looking at somebody's dashboard for solutions.
-But this time I decided that I'll not take a peek into anybody's blog or tableau workbooks until I give my 200%. So I did just that :)
+This week's Workout Wednesday was given by [Emma Whyte] [emma] (@EmmaWhyte).
+The challenge was to recreate the below viz using UK population data from the [ONS website][ons]
 
 <!--more-->
 
-This week's challenge was to recreate the below viz created by [Andy Kriebel][andy]  using [NFL data][nfl]
+<img src="{{ site.urlimg }}/wowed/wk6/goal.png" class="alignimgcenter" itemprop="image">
 
-<img src="{{ site.urlimg }}/wowed/wk6/sample.png" class="alignimgcenter" itemprop="image">
+####Some  info about the viz:####       
 
-And these were some specific requirements :
+Each part of the trellis is a year, from 2015-2039. Each side of the butterfly is either the percentage of males or females by age group. The black line is the national average, the bars are the percentage for the local authority you have selected.
+The aim of this chart was to give the user an indication of whether the percentage of males or females in their local area was on par with the national average; how this changes over time; and if there were any age groups that were either more female or male.
 
-- All of the elements must be floating on a dashboard sized 650x650.
-- You cannot use the Player dimension anywhere in the view.
-- Match my colors including the background
-- Create the legend (HINT: It's not an image)
-- Match the tooltip (Note the stats that are displayed in the tooltip. This will be a bit tricky. Essentially you need to count the number of players that are contained within each band.)
-- The viz should update based on the stat selected. The user should be able to choose between: Attempts, Completions, Interceptions, Touchdowns, and Yards
-- The title should update dynamically based on the stat the user selects.
-- Optional: Use Montserrat font (you can download it from Google fonts)
+####Some rules for re-creating this viz:####    
 
-My initial thoughts were: 
+- Remove the year 2014 (to create an even trellis)
+- Filter the original data to remove the local authority 'England' and the age group 'all ages' (these are unnecessary total lines in the data)
+- Pull out male and female population numbers, then make them percentages
+-  Find out the national average for males and females
+- Be able to filter to one local authority at a time (not select all - this makes for a messy & slow viz!)
+- Display a label on each trellis part for the year
+- The sheet title should change depending on the local authority you select
+- My dashboard size is 1000x800 pixels
+- Font: Tableau Bold for the titles and then Tableau Book for all other text
+- Format the chart lines to be dashes
 
-#### Things which seem easy at this point:
-   - Chart shows Percentile distributions so Box plot should do the main part
-   - Parameter control and dynamic heading- lots of practice in previous workout Wednesday exercises
-   - Gauging appropriate range for dashboard and making everything in fixed place is always a lot of work so fixed size and floating elements look like a relief
+####Initial thoughts:####
 
-#### Things not so easy:
-   - Tooltips don't look too daunting for now but are giving an uneasy feeling :)
-   - I have never experimented with custom font. If time permits I may play around with it a bit
-   - Legend (which is not an image). I assume this is going to be another sheet plugged in the dashboard. But not going to be straightforward.
+It was my first time preparing trellis chart so I was pretty excited.
 
-With these thoughts I loaded the data, created union so that all sheets come in one place and fired up 1st sheet.
+####Things which seem easy at this point:####
 
-Easy things first, I created a parameter control with string data type for choosing the stats.
+- The calculations for populations % looked simple enough.
+- Formatting, labeling and filtering looks pretty doable
+- For the national average line LOD calculation at year and age level should be sufficient
 
-<img src="{{ site.urlimg }}/wowed/wk6/parametr.png" class="alignimgcenter" itemprop="image">
+####Things not so easy:####
 
-And then proceeded with accompanying calculation to reflect the values of the chosen stat in the viz.
+- I had no idea how to divide the viz into columns and rows so would have to look at some tutorial for that
 
-<img src="{{ site.urlimg }}/wowed/wk6/select.png" class="alignimgcenter" itemprop="image">
+With these thoughts I loaded up the data extract provided by Emma. I chose to use .tde extract this time to see how they are used. I have only used excel sheets till now. since .tde came with filtered and manipulated data, it was quite easy to use.
 
-After playing around a little with box plots and not able to do much with whiskers i started to realize that box plot is not going to do it. Those bars must be some type of bar chart or gantt chart sized according to the interquartile range.
+To begin with I looked for some tutorial on trellis chart and got this [post][post] by Andy Kriebel which helped in understanding how to divide columns and rows in trellis chart.
 
-So, to get IQR first we need 25th percentile and 75th percentile of the required measures for every year.  Also the medians. I did those with LOD calculations.
+####These are the calculations which we use to divide the columns and rows:####
 
-<img src="{{ site.urlimg }}/wowed/wk6/pct25.png" class="alignimgcenter" itemprop="image">
+Column Divider:       
+$$ ( \text{ index() } - 1) \mathbin{\%} ( \text{ round }( \text{ sqrt } ( \text{ size } ()))) $$
 
-<img src="{{ site.urlimg }}/wowed/wk6/pct75.png" class="alignimgcenter" itemprop="image">
+Row Divider        
+$$ \text{ int } ( { ( \text{ index() } - 1 ) } / { ( \text{ round }( \text{ sqrt } ( \text{ size } ())) ) } ) $$
 
-<img src="{{ site.urlimg }}/wowed/wk6/median.png" class="alignimgcenter" itemprop="image">
+The calculations worked perfectly when we used "compute with" set to year after putting "column divider" on column shelf and "row divider" on row shelf.
+But I couldn't really wrap my head around the calculation. What exactly was it doing? why subtracting 1 from Index()? why a modulus in column and division in rows? So I dig in a little and this is what I understood
 
-After getting all these in place, I got something like this. with median and 25th and 75th percentile displayed.
+What we want is to divide the total entities (in our case: 25 years) as evenly as possible in rows and columns like a matrix.
+We need a way to tell each entity to go to a specific cell in the matrix lets say 4th column and 5th row. specifically, we need to assign every entity a row number and a column number
 
-<img src="{{ site.urlimg }}/wowed/wk6/rgh1.png" class="alignimgcenter" itemprop="image">
+So this is what we need to do:
 
-Now it was only a matter of joining the percentile marks. But I just could not get how. I got stuck in this place for a LONG time. looking around for articles on quartile range, box plots, custom bar chart and what not. Now in the hindsight it seems so silly.
+- take total number of entities to be placed in the matrix (Size()=25)
+- now to get symmetric distribution, we should have equal number of rows and columns lets say "n".Thus total entities should be n rows $$ \times $$ n columns which is $$ n^2 $$. Now if we have total entities = T, then $$ n^2 = T $$, which gives us $$ n= \sqrt{T} $$. Thus we need to take square root of total entities to get number of rows and columns.
+- round it to the nearest integer (If total entities were 27 then square root would be 5.19 which on rounding will become 5)
+- subtract 1 from Index() to get the first index as 0 as the index() gives 1 by default but tableau starts placing items starting from index 0.
 
-I eventually stumbled upon the idea that we can use the difference of 75th percentile and 25th percentile to set size for the gantt chart and no need to display the 75th percentile in the view. So I did the calculation, moved the median marks to front and instantly achieved this.
+**For columns now:**  $$ ( \text{ index() } - 1) \mathbin{\%} ( \text{ round }( \text{ sqrt } ( \text{ size } ()))) $$
 
-<img src="{{ site.urlimg }}/wowed/wk6/rgh2.png" class="alignimgcenter" itemprop="image">
+Col index for $$ 1^{st} $$ entity: $$ \quad ( 1 - 1) \mathbin{\%} ( \text{ round }( \text{ sqrt } ( \text{ size } ()))) \quad = \quad 0 \mathbin{\%} 5 \quad = \quad 0 $$      
+Col index for $$ 2^{nd} $$ entity: $$ \quad ( 2 - 1) \mathbin{\%} ( \text{ round }( \text{ sqrt } ( \text{ size } ()))) \quad = \quad 1 \mathbin{\%} 5 \quad = \quad 1 $$     
+Col index for $$ 3^{rd} $$ entity: $$ \quad ( 3 - 1) \mathbin{\%} ( \text{ round }( \text{ sqrt } ( \text{ size } ()))) \quad = \quad 2 \mathbin{\%} 5 \quad = \quad 2 $$    
+Col index for $$ 4^{th} $$ entity: $$ \quad ( 4 - 1) \mathbin{\%} ( \text{ round }( \text{ sqrt } ( \text{ size } ()))) \quad = \quad 3 \mathbin{\%} 5 \quad = \quad 3 $$    
+Col index for $$ 5^{th} $$ entity: $$ \quad ( 5 - 1) \mathbin{\%} ( \text{ round }( \text{ sqrt } ( \text{ size } ()))) \quad = \quad 4 \mathbin{\%} 5 \quad = \quad 4 $$    
+Col index for $$ 6^{th} $$ entity: $$ \quad ( 6 - 1) \mathbin{\%} ( \text{ round }( \text{ sqrt } ( \text{ size } ()))) \quad = \quad 5 \mathbin{\%} 5 \quad = \quad 0 $$    
+Col index for $$ 7^{th} $$ entity: $$ \quad ( 7 - 1) \mathbin{\%} ( \text{ round }( \text{ sqrt } ( \text{ size } ()))) \quad = \quad 6 \mathbin{\%} 5 \quad = \quad 1 $$    
 
-WHAT?? That looks so neat. Was it this simple? Have I done 90% already??    
-I was so wrong :)
+and so on. this way we have 5 columns from 0 to 4.
 
-Anyways, after celebrating for a while, I went on to tackle the tooltips.
-I started with the thought that it is going to be tricky. But surprisingly it did not take me much time and worked perfectly. Hopefully I am not missing anything.
+**For rows:**  $$ \text{ int } ( { ( \text{ index() } - 1 ) } / { ( \text{ round }( \text{ sqrt } ( \text{ size } ())) ) } ) $$
 
-Since median was already available and total QB's was easily done by `COUNTD(Players)`, only challenge was to count the QB's in the IQR. I calculated those by the following calculation.
+Row index for $$ 1^{st} $$ entity: $$ \text{  } \text{int} (( 1 - 1) / ( \text{ round }( \text{ sqrt } ( \text{ size } ())))) \text{  } = \text{  } \text{int}(0 / 5) \text{  } = \text{  } \text{int}(0.0) \text{  } = \text{  } 0 $$      
+Row index for $$ 2^{nd} $$ entity: $$ \text{  } \text{int} (( 2 - 1) / ( \text{ round }( \text{ sqrt } ( \text{ size } ())))) \text{  } = \text{  } \text{int}(1 / 5) \text{  } = \text{  } \text{int}(0.2) \text{  } = \text{  } 0 $$      
+Row index for $$ 3^{rd} $$ entity: $$ \text{  } \text{int} (( 3 - 1) / ( \text{ round }( \text{ sqrt } ( \text{ size } ())))) \text{  } = \text{  } \text{int}(2 / 5) \text{  } = \text{  } \text{int}(0.4) \text{  } = \text{  } 0 $$      
+Row index for $$ 4^{th} $$ entity: $$ \text{  } \text{int} (( 4 - 1) / ( \text{ round }( \text{ sqrt } ( \text{ size } ())))) \text{  } = \text{  } \text{int}(3 / 5) \text{  } = \text{  } \text{int}(0.6) \text{  } = \text{  } 0 $$      
+Row index for $$ 5^{th} $$ entity: $$ \text{  } \text{int} (( 5 - 1) / ( \text{ round }( \text{ sqrt } ( \text{ size } ())))) \text{  } = \text{  } \text{int}(4 / 5) \text{  } = \text{  } \text{int}(0.8) \text{  } = \text{  } 0 $$      
+Row index for $$ 6^{th} $$ entity: $$ \text{  } \text{int} (( 6 - 1) / ( \text{ round }( \text{ sqrt } ( \text{ size } ())))) \text{  } = \text{  } \text{int}(5 / 5) \text{  } = \text{  } \text{int}(1.0) \text{  } = \text{  } 1 $$      
+Row index for $$ 7^{th} $$ entity: $$ \text{  } \text{int} (( 7 - 1) / ( \text{ round }( \text{ sqrt } ( \text{ size } ())))) \text{  } = \text{  } \text{int}(6 / 5) \text{  } = \text{  } \text{int}(1.2) \text{  } = \text{  } 1 $$      
 
-<img src="{{ site.urlimg }}/wowed/wk6/iqr.png" class="alignimgcenter" itemprop="image">
 
-This made me very happy :)
 
-Leaving formatting for the end, I moved on to the legend.
-I noted that I could use the percentile and median calculation for creating similar looking legend. But do I really need to do the calculations again? Since I don't want the legend to be dynamic, just a similar looking distribution bar, I opted to do it without any calculations. And I ended up with pretty neat legend all decked up with annotations.
+and so on.
 
-<img src="{{ site.urlimg }}/wowed/wk6/legend.png" class="alignimgcenter" itemprop="image">
+This way after every five entities the row number is changing. Here, INT( ) is cleverly being used to round off the number to closest integer towards zero. This can also be achieved by Floor() which rounds a number to the nearest integer of equal or lesser value.
 
-I had a well functioning dashboard now. Only formatting remaining. ONLY.
+This gave us the desired result of distributing the entities in rows and columns.
 
-#### Stuff which was easy:
-- Overall color of the dashboard, borders, placing the legend
+<img src="{{ site.urlimg }}/wowed/wk6/matrix.png" class="alignimgcenter" itemprop="image">
 
-#### Stuff which was crazy:
+Once I understood this the rest of the calculations were pretty straightforward.
 
-- Placing a very thin, shaded, floating text box as the line below the Heading. That was the only way I found. Another way was to use an image 
-    of a line, which is way crazier.
+First calculating the male and female population numbers
 
-####Stuff which took a LONG time to figure out:
+<img src="{{ site.urlimg }}/wowed/wk6/mpop.png" class="alignimgcenter" itemprop="image">
+<img src="{{ site.urlimg }}/wowed/wk6/fpop.png" class="alignimgcenter" itemprop="image">
 
-- Columnar grid lines. I was getting grid lines that were on either side of the bars and not directly under the bars. But why? was it really a box and whisker plot ?? Those lines sure look like extended whiskers. I did try to make a box plot again and extend their whiskers but no use. It is not a box plot. Period. After staring at the year dimension for very long time i realized that it was discrete. I converted it to dimension and voila!! Success.
-- Putting the year header on top. That took some workaround. Copying the Year dimension on column, making it dual axis and removing the axis tick marks for the bottom axis.
+Since I wanted to plot male population on the reverse axis I also calculated a negative of male population.
+<img src="{{ site.urlimg }}/wowed/wk6/mpopn.png" class="alignimgcenter" itemprop="image">
 
-####Stuff for which I broke my head but could not figure out and had to look at Andy's dashboard:
+Then calculating their percent out of total population
 
-- Removing the 2005 and 2007 labels from the x-axis. Andy's dashboard also looked the same. No difference in year dimension. Same axis settings. A lot of looking around revealed that the culprit was data type for Year. Mine was set to "Number(Whole)". As I changed it to "Number(Decimal)" everything was in place. I don't completely understand why that made a difference. To learn later.
+<img src="{{ site.urlimg }}/wowed/wk6/mpopper.png" class="alignimgcenter" itemprop="image">
+<img src="{{ site.urlimg }}/wowed/wk6/fpopper.png" class="alignimgcenter" itemprop="image">
 
-With that, I finally completed the dashboard. Hopefully I'll use the custom font next time.
+I arrived here by plotting the above numbers.
+<img src="{{ site.urlimg }}/wowed/wk6/matrix2.png" class="alignimgcenter" itemprop="image">
 
-<div class="show-for-small-down">
-<a href="https://public.tableau.com/views/Distributionbandswithmedians/DistributionBandswithMedians?:retry=yes&:embed=y&:display_count=yes">
+To get rid of the negative sign in the male population axis, I formatted it to show negative numbers as positive.
+<img src="{{ site.urlimg }}/wowed/wk6/negformat.png" class="alignimgcenter" itemprop="image">
+
+Then I calculated the national averages by LOD calculation by fixing the year and age group
+<img src="{{ site.urlimg }}/wowed/wk6/nfa.png" class="alignimgcenter" itemprop="image">
+<img src="{{ site.urlimg }}/wowed/wk6/nma.png" class="alignimgcenter" itemprop="image">
+
+Also, the national average percent out of total the same way
+<img src="{{ site.urlimg }}/wowed/wk6/nfaper.png" class="alignimgcenter" itemprop="image">
+<img src="{{ site.urlimg }}/wowed/wk6/nmaper.png" class="alignimgcenter" itemprop="image">
+
+I plotted the national averages on as dual axis and changed the marks type to line.
+Also as suggested by [Andy] [andy], I highlighted the bars to show different colors for values above and below the national averages. I couldnt put the year labels as recommended by Emma so I just placed them where they looked fine.
+
+This is the final dashboard. *(Click on the image to view interactive version)*
+
+<div>
+<a href="https://public.tableau.com/views/UKpopulationchangefrom2015to2039/HowwilltheUKpopulationchangeby2039?:embed=y&:display_count=yes">
 <img src="{{ site.urlimg }}/wowed/wk6/final.png" class="alignimgcenter" itemprop="image">
 </a>
 </div>
-<!-- tags lable -->
-<div class="show-for-medium-up">
-<div class='tableauPlaceholder' id='viz1486146275774' style='position: relative'><noscript><a href='#'><img alt='Distribution Bands with Medians ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Di&#47;Distributionbandswithmedians&#47;DistributionBandswithMedians&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='site_root' value='' /><param name='name' value='Distributionbandswithmedians&#47;DistributionBandswithMedians' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Di&#47;Distributionbandswithmedians&#47;DistributionBandswithMedians&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div> 
- <script type='text/javascript'>
- var divElement = document.getElementById('viz1486146275774');
- var vizElement = divElement.getElementsByTagName('object')[0];
- vizElement.style.width='654px';vizElement.style.height='719px';
- var scriptElement = document.createElement('script');
- scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
- vizElement.parentNode.insertBefore(scriptElement, vizElement);
- </script>
-</div>
 
 
-Blogging about the exercise was quite fun. I hope to do it every week and make Workout Wednesday a valuable learning exercise.
+[emma]: http://www.womanindata.co.uk/
+[ons]: https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationprojections/datasets/localauthoritiesinenglandtable2
+[post]: http://www.vizwiz.com/2016/03/tableau-tip-tuesday-how-to-create-small.html
+[andy]: http://www.vizwiz.com/2017/02/ww6.html
 
 
-[andy]: http://www.vizwiz.com/2017/02/ww-distributions.html
-[nfl]: https://drive.google.com/file/d/0BwwOAU_ldxzwa2tQZXg2YkVzZlU/view
+
+
+
+
+
+
