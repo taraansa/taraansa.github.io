@@ -139,7 +139,7 @@ Also, the national average percent out of total the same way
 I plotted the national averages on as dual axis and changed the marks type to line.
 Also as suggested by [Andy] [andy], I highlighted the bars to show different colors for values above and below the national averages. I couldnt put the year labels as recommended by Emma so I just placed them where they looked fine.
 
-This is the final dashboard. *(Click on the image to view interactive version)*
+This is the final dashboard. *(Click on the image to view the interactive version)*
 
 <div>
 <a href="https://public.tableau.com/views/UKpopulationchangefrom2015to2039/HowwilltheUKpopulationchangeby2039?:embed=y&:display_count=yes">
