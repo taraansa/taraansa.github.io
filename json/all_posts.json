@@ -1,30 +1,36 @@
 [
     {
       "id": 1,
+      "url": "/2017/02/25/workout-wednesday-week8.html",
+      "title": "Workout Wednesday Week 8 -  Merimekko Chart ",
+      "date": ["2017", "February", "25"],
+      "tags": ["tableau", "WorkoutWednesday", "Merimekko"]
+    },{
+      "id": 2,
       "url": "/2017/02/17/workout-wednesday-week7.html",
       "title": "Workout Wednesday Week 7 - Dynamic Trellis Chart",
       "date": ["2017", "February", "17"],
       "tags": ["tableau", "WorkoutWednesday", "trellis-chart"]
     },{
-      "id": 2,
+      "id": 3,
       "url": "/2017/02/12/workout-wednesday-week6.html",
       "title": "Workout Wednesday Week 6 - Butterfly bar chart in Trellis format",
       "date": ["2017", "February", "12"],
       "tags": ["tableau", "WorkoutWednesday", "trellis-chart", "butterfly-chart"]
     },{
-      "id": 3,
+      "id": 4,
       "url": "/2017/02/03/workout-wednesday-week5.html",
       "title": "Workout Wednesday Week 5 - Distribution bands with Medians",
       "date": ["2017", "February", "03"],
       "tags": ["tableau", "WorkoutWednesday", "distribution-bands"]
     },{
-      "id": 4,
+      "id": 5,
       "url": "/2017/02/02/makeover-monday-workout-wednesday.html",
       "title": "Tableau practice - Makeover Monday and Workout Wednesday",
       "date": ["2017", "February", "02"],
       "tags": ["tableau"]
     },{
-      "id": 5,
+      "id": 6,
       "url": "/2017/01/29/hello-world.html",
       "title": "Hello World",
       "date": ["2017", "January", "29"],
