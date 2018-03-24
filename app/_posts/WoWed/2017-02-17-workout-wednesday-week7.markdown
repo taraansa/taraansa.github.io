@@ -124,7 +124,7 @@ After doing necessary formatting and removing the grid lines, the final dashboar
 
 [wow]: http://www.vizwiz.com/p/workout-wednesday.html
 [andy]: http://www.vizwiz.com/2017/02/ww7.html
-[last]: http://www.visualvantage.io/2017/02/12/workout-wednesday-week6.html
+[last]: http://www.tarannum.io/2017/02/12/workout-wednesday-week6.html
 [data]: https://onedrive.live.com/view.aspx?resid=43EBDBC5D5265516!10928&ithint=file%2cxlsx&app=Excel&authkey=!ANa8vC6B5ZNcO8E
 [1]:http://www.theinformationlab.co.uk/2014/09/29/understanding-tableau-table-calculations-using-index-size-part-1/
 [2]:http://www.theinformationlab.co.uk/2014/10/01/understanding-tableau-table-calculations-using-index-size-part-2/
